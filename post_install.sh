@@ -195,6 +195,7 @@ conf_terminal(){
 	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 	
 	#Configs
+	mv zhrc .zhrc
 	mv .zhrc "/home/$USERNAME/"
 	export alias pbcopy='xclip -selection clipboard'
 	export alias pbpaste='xclip -selection clipboard -o'
