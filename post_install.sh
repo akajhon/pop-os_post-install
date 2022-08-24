@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #
-# pos-os-postinstall.sh - Instalar e configura programas no Pop!_OS (20.04 LTS ou superior)
+# post_install.sh - Instalar e configura programas no Pop!_OS (20.04 LTS ou superior)
 #
 # ------------------------------------------------------------------------ #
 #
 # COMO USAR?
+#   $ chmod +x pos-os-postinstall.sh
 #   $ ./pos-os-postinstall.sh
 #
 # ----------------------------- VARIÁVEIS ----------------------------- #
@@ -14,15 +15,13 @@
 URL_GOOGLE_CHROME="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 URL_DRACULA_THEME="https://github.com/dracula/gtk/archive/master.zip"
 URL_DRACULA_ICONTHEME="https://github.com/dracula/gtk/files/5214870/Dracula.zip"
-URL_TEAMS="https://go.microsoft.com/fwlink/p/?LinkID=2112886&clcid=0x409&culture=en-us&country=US"
 URL_CADMUS="https://github.com/josh-richardson/cadmus/releases/download/0.0.3/cadmus.deb"
+URL_NERD_FONT = "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraMono.zip"
 
 ##DIRETÓRIOS E ARQUIVOS
 
 DIRETORIO_DOWNLOADS="$HOME/Downloads/programas"
-FILE="/home/$USER/.config/gtk-3.0/bookmarks"
 mkdir "$DIRETORIO_DOWNLOADS"
-
 
 #CORES
 
@@ -67,9 +66,14 @@ sudo dpkg --add-architecture i386
 }
 ## Atualizando o repositório ##
 just_apt_update(){
+sudo apt update -y
+}
+
+##Adicionando Repositórios
+add_repos(){
 sudo add-apt-repository ppa:transmissionbt/ppa
 sudo add-apt-repository ppa:agornostal/ulauncher
-sudo apt update -y
+sudo add-apt-repository ppa:alexlarsson/flatpak
 }
 
 
@@ -84,7 +88,6 @@ PROGRAMAS_PARA_INSTALAR=(
   gufw
   synaptic
   vlc
-  code
   gnome-sushi 
   folder-color
   git
@@ -100,8 +103,9 @@ PROGRAMAS_PARA_INSTALAR=(
   ulauncher
   xclip
   transmission
-  transmission-qt
   terminator
+  nodejs
+  npm
 )
 
 # ---------------------------------------------------------------------- #
@@ -112,9 +116,7 @@ install_debs(){
 
 echo -e "${VERDE}[INFO] - Baixando pacotes .deb${SEM_COR}"
 
-mkdir "$DIRETORIO_DOWNLOADS"
 wget -c "$URL_GOOGLE_CHROME"       -P "$DIRETORIO_DOWNLOADS"
-wget -c "$URL_TEAMS"       -P "$DIRETORIO_DOWNLOADS"
 wget -c "$URL_CADMUS"       -P "$DIRETORIO_DOWNLOADS"
 
 
@@ -132,8 +134,8 @@ for nome_do_programa in ${PROGRAMAS_PARA_INSTALAR[@]}; do
     echo "[INSTALADO] - $nome_do_programa"
   fi
 done
-
 }
+
 ## Instalando pacotes Flatpak ##
 install_flatpaks(){
 
@@ -162,6 +164,16 @@ sudo snap install pycharm-community --classic
 
 }
 
+install_vscode(){
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt-get install apt-transport-https -y
+sudo apt-get update
+sudo apt-get install code -y 
+code --install-extension Shan.code-settings-sync
+}
+
 conf_theme(){
 	#Download Dracula Themes
 	wget -c "$URL_DRACULA_THEME"       -P "$DIRETORIO_DOWNLOADS"
@@ -176,13 +188,17 @@ conf_theme(){
 	gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
 	#Icons
 	gsettings set org.gnome.desktop.interface icon-theme "Dracula"
+
+  #Download Dracula gnome-Terminal
+	git clone https://github.com/dracula/gnome-terminal "$DIRETORIO_DOWNLOADS"
+  chmod +x "$HOME/Downloads/programas/gnome-terminal/install.sh"
+	"$HOME/Downloads/programas/gnome-terminal/install.sh"
 }
 
 conf_terminal(){
-	#Download Dracula gnome-Terminal
-	git clone https://github.com/dracula/gnome-terminal "$DIRETORIO_DOWNLOADS"
-	"$HOME/Downloads/programas/gnome-terminal/./install.sh"
-	
+  #Installing NVM
+  sh -c "$(curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh)"
+
 	#Installing OhMyZSH
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	
@@ -195,8 +211,8 @@ conf_terminal(){
 	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 	
 	#Configs
-	mv zhrc .zhrc
-	mv .zhrc "/home/$USERNAME/"
+	sudo mv zhrc .zhrc
+	sudo mv .zhrc "/home/$USERNAME/"
 	export alias pbcopy='xclip -selection clipboard'
 	export alias pbpaste='xclip -selection clipboard -o'
 	source ~/.zshrc
@@ -251,6 +267,20 @@ cat <<EOF >>  ~/.config/terminator/config
 EOF
 }
 
+conf_nvim(){
+  #Configurando NerdFont
+  wget -c "$URL_NERD_FONT"       -P "$DIRETORIO_DOWNLOADS"
+  sudo mkdir "/home/$USERNAME/.fonts"
+  unzip "$DIRETORIO_DOWNLOADS/FiraMono.zip" -d "/home/$USERNAME/.fonts"
+
+  #Backup NVIM atual
+  mv ~/.config/nvim ~/.config/nvimbackup
+
+  #Baixando AstroVim
+  git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+  nvim +PackerSync
+}
+
 
 # -------------------------------------------------------------------------- #
 # ----------------------------- PÓS-INSTALAÇÃO ----------------------------- #
@@ -271,7 +301,6 @@ nautilus -q
 # -------------------------------------------------------------------------- #
 # ----------------------------- CONFIGS EXTRAS ----------------------------- #
 
-#Mapeia outro HD para ser montado automaticamente
 extra_config(){
 
 #enabling workspaces for both screens
@@ -289,23 +318,34 @@ sh -c "$(curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/
 # -------------------------------------------------------------------------------- #
 # -------------------------------EXECUÇÃO----------------------------------------- #
 
-travas_apt
-testes_internet
-travas_apt
-apt_update
-travas_apt
-add_archi386
-just_apt_update
-install_debs
-install_flatpaks
-install_snaps
-extra_config
-conf_theme
-conf_terminator
-conf_terminal
-apt_update
-system_clean
+if [[ "$1" == "initial" ]]; then
+  travas_apt
+  testes_internet
+  travas_apt
+  apt_update
+  travas_apt
+  add_archi386
+  just_apt_update
+  add_repos
+  just_apt_update
+elif [[ "$1" == "install" ]]; then
+  install_debs
+  install_flatpaks
+  install_snaps
+  apt_update
+  system_clean
+elif [[ "$1" == "config" ]]; then
+  conf_terminal
+  conf_terminator
+  conf_theme
+  conf_nvim
+  extra_config
+  apt_update
+  system_clean
+else
+  echo -e "${VERMELHO}[INFO] - Argumento inválido! :)${SEM_COR}"
+  exit
+fi
 
-## finalização
-
+## Finalização
   echo -e "${VERDE}[INFO] - Script finalizado, instalação concluída! :)${SEM_COR}"
