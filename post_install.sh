@@ -21,7 +21,6 @@ URL_NERD_FONT="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/
 ##DIRETÓRIOS E ARQUIVOS
 
 DIRETORIO_DOWNLOADS="$HOME/Downloads/programas"
-mkdir "$DIRETORIO_DOWNLOADS"
 
 #CORES
 
@@ -117,6 +116,7 @@ install_debs(){
 
 echo -e "${VERDE}[INFO] - Baixando pacotes .deb${SEM_COR}"
 
+mkdir "$DIRETORIO_DOWNLOADS"
 wget -c "$URL_GOOGLE_CHROME"       -P "$DIRETORIO_DOWNLOADS"
 wget -c "$URL_CADMUS"       -P "$DIRETORIO_DOWNLOADS"
 
