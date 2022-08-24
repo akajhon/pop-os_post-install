@@ -1,4 +1,3 @@
-<p align="center">
 ```bash
   _____              _____          _     _____           _        _ _ 
  |  __ \            |  __ \        | |   |_   _|         | |      | | |
@@ -9,7 +8,6 @@
             | |                                                        
             |_|                                                                            
 ```
-</p>
 
 Script Desenvolvido para configuração do Pop_OS após uma nova instalação. As Principais funções são:
 
@@ -45,8 +43,3 @@ Execute o arquivo principal
   ./post_install.sh
 ```
 ***
-
-- [x] /LEAVEELNET 👨‍💻
-
-Após a conexão via telnet ser realizada, a tela inicial do servidor é exibida solicitando nome, nickname e senha. 
-
