@@ -37,9 +37,21 @@ Define as permissões de execução
    chmod +x post_install.sh
 ```
 
-Execute o arquivo principal
+Execute o arquivo principal com o parâmetro "initial" para realizar as configurações iniciais
 
 ```bash
-  ./post_install.sh
+  ./post_install.sh initial
+```
+
+Execute o arquivo principal com o parâmetro "install" para realizar a instalação dos pacotes .DEB, FLAT e SNAP
+
+```bash
+  ./post_install.sh install
+```
+
+Execute o arquivo principal com o parâmetro "config" para realizar a configuração dos Temas, do Terminal e do NVIM
+
+```bash
+  ./post_install.sh config
 ```
 ***
