@@ -165,6 +165,7 @@ sudo snap install pycharm-community --classic
 }
 
 install_vscode(){
+echo -e "${VERDE}[INFO] - Instalando VSCode! :)${SEM_COR}"
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
@@ -175,6 +176,7 @@ code --install-extension Shan.code-settings-sync
 }
 
 conf_theme(){
+  echo -e "${VERDE}[INFO] - Configurando Dracula Theme no Gnome! :)${SEM_COR}"
 	#Download Dracula Themes
 	wget -c "$URL_DRACULA_THEME"       -P "$DIRETORIO_DOWNLOADS"
 	wget -c "$URL_DRACULA_ICONTHEME"       -P "$DIRETORIO_DOWNLOADS"
@@ -196,11 +198,14 @@ conf_theme(){
 }
 
 conf_terminal(){
+  echo -e "${VERDE}[INFO] - Configurando Terminal! :)${SEM_COR}"
+
   #Installing NVM
   sh -c "$(curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh)"
 
 	#Installing OhMyZSH
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  chsh -s /bin/zsh
 	
 	#INstalling ZINIT
 	sh -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
@@ -212,15 +217,15 @@ conf_terminal(){
 	
 	#Configs
 	sudo mv zhrc .zhrc
-	sudo mv .zhrc "/home/$USERNAME/"
+	sudo mv -f .zhrc "/home/$USERNAME/"
 	export alias pbcopy='xclip -selection clipboard'
 	export alias pbpaste='xclip -selection clipboard -o'
 	source ~/.zshrc
-	echo "All the ZSH configurations are Done. Please Reboot."	
+	echo "All the OhMyZSH configurations are Done. Please Reboot."	
 }
 
 conf_terminator(){
-echo 'adding dracula theme' 
+echo -e "${VERDE}[INFO] - Adicionando Dracula Theme no Terminator! :)${SEM_COR}"
 cat <<EOF >  ~/.config/terminator/config
 [global_config]
   title_transmit_bg_color = "#ad7fa8"
@@ -268,6 +273,7 @@ EOF
 }
 
 conf_nvim(){
+  echo -e "${VERDE}[INFO] - Configurando AstroVIM! :)${SEM_COR}"
   #Configurando NerdFont
   wget -c "$URL_NERD_FONT"       -P "$DIRETORIO_DOWNLOADS"
   sudo mkdir "/home/$USERNAME/.fonts"
@@ -289,7 +295,7 @@ conf_nvim(){
 ## Finalização, atualização e limpeza##
 
 system_clean(){
-
+echo -e "${VERDE}[INFO] - Limpando sistema... :)${SEM_COR}"
 apt_update -y
 flatpak update -y
 sudo apt autoclean -y
@@ -302,7 +308,7 @@ nautilus -q
 # ----------------------------- CONFIGS EXTRAS ----------------------------- #
 
 extra_config(){
-
+echo -e "${VERDE}[INFO] - Configurações extras! :)${SEM_COR}"
 #enabling workspaces for both screens
 gsettings set org.gnome.mutter workspaces-only-on-primary false
 
@@ -311,8 +317,6 @@ git clone https://github.com/dracula/ulauncher.git ~/.config/ulauncher/user-them
 
 #Ngrok
 sh -c "$(curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo deb https://ngrok-agent.s3.amazonaws.com buster main | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok)"
-
-
 }
 
 # -------------------------------------------------------------------------------- #
