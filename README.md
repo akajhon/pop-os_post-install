@@ -15,7 +15,7 @@ Script Desenvolvido para configuração do Pop_OS após uma nova instalação. A
 - [x] Configuração do Tema Dracula no Gnome
 - [x] Configuração do Tema Dracula no Terminal
 - [x] Instalação do ZSH
-- [x] Instalação do OhMyZSH + Plugins
+- [x] Instalação do NerdFonts
 - [x] Instalação e Configuração do AstroVim para Neovim
 
 ***
@@ -54,4 +54,30 @@ Execute o arquivo principal com o parâmetro "config" para realizar a configura�
 ```bash
   ./post_install.sh config
 ```
+***
+
+O Arquivo nvim_configs.md contém as intruções para instalação do OhMyZSH + Plugins no terminal.
+
+Para alterar o tema 'Dracula' instalado, verificar a URL: "https://www.gnome-look.org/p/1687249". Buscar por "Dracula-shell-pink-accent-v40.tar.xz"
+
+***
+
+Após as configurações primárias, acessar o site: '''https://extensions.gnome.org/''' para realizar o download das extensões do Shell.
+
+Instalar as extensões abaixo:
+- [x] User Themes
+- [x] Extension List
+- [x] Removable Drive Menu
+- [x] Clipboard Indicator
+- [x] Sound Input & Output Device Chooser
+- [x] Bluetooth Quick Connect
+- [x] Control Blur Effect On Lock Screen
+
+***
+
+- [x] Definir atalhos para Spotify
+- [x] Definir atalhos para bloquear tela
+- [x] Definir atalho para Flameshot
+- [x] Definir Montagem automática do outro HD
+
 ***

@@ -11,13 +11,13 @@
 # ----------------------------- VARIÁVEIS ----------------------------- #
 
 ##URLS
-
 URL_GOOGLE_CHROME="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 URL_DRACULA_THEME="https://github.com/dracula/gtk/archive/master.zip"
 URL_DRACULA_ICONTHEME="https://github.com/dracula/gtk/files/5214870/Dracula.zip"
 URL_CADMUS="https://github.com/josh-richardson/cadmus/releases/download/0.0.3/cadmus.deb"
 URL_NERD_FONT="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraMono.zip"
 URL_NEOVIM="https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.deb"
+
 ##DIRETÓRIOS E ARQUIVOS
 
 DIRETORIO_DOWNLOADS="$HOME/Downloads/programas"
@@ -91,10 +91,10 @@ PROGRAMAS_PARA_INSTALAR=(
   gnome-sushi 
   folder-color
   git
+  stacer
   ubuntu-restricted-extras
   zsh
   vim
-  neovim
   tlp 
   tlp-rdw
   htop
@@ -105,6 +105,7 @@ PROGRAMAS_PARA_INSTALAR=(
   transmission
   nodejs
   npm
+  plocate
 )
 
 # ---------------------------------------------------------------------- #
@@ -198,36 +199,12 @@ conf_theme(){
   "$HOME/Downloads/programas/gnome-terminal/install.sh"
 }
 
-conf_terminal(){
-  echo -e "${VERDE}[INFO] - Configurando Terminal! :)${SEM_COR}"
-
-  #Installing NVM
-  sh -c "$(curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh)"
-
-	#Installing OhMyZSH
-	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  chsh -s /bin/zsh
-	
-	#INstalling ZINIT
-	sh -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-	zinit self-update
-	
-	#Installing Spaceship theme
-	git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-	
-	#Configs
-	sudo mv zshrc .zshrc
-	sudo mv -f .zshrc "/home/$USERNAME/"
-	echo "All the OhMyZSH configurations are Done. Please Reboot."	
-}
-
 conf_nvim(){
   echo -e "${VERDE}[INFO] - Configurando AstroVIM! :)${SEM_COR}"
- 
-
-  #Backup NVIM atual
-  mv ~/.config/nvim ~/.config/nvimbackup
+ 	
+  #Configurando NerdFont
+  sudo mkdir "/home/$USERNAME/.fonts"
+  sudo unzip "$DIRETORIO_DOWNLOADS/FiraMono.zip" -d "/home/$USERNAME/.fonts"
 
   #Baixando AstroVim
   git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
@@ -256,10 +233,6 @@ nautilus -q
 
 extra_config(){
 echo -e "${VERDE}[INFO] - Configurações extras! :)${SEM_COR}"
-
-#Configurando NerdFont
-sudo mkdir "/home/$USERNAME/.fonts"
-unzip "$DIRETORIO_DOWNLOADS/FiraMono.zip" -d "/home/$USERNAME/.fonts"
 
 #Xcopy
 export alias pbcopy='xclip -selection clipboard'
@@ -294,9 +267,8 @@ elif [[ "$1" == "install" ]]; then
   apt_update
   system_clean
 elif [[ "$1" == "config" ]]; then
-  #conf_terminal
   conf_theme
-  #conf_nvim
+  conf_nvim
   extra_config
   apt_update
   system_clean
