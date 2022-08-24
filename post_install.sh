@@ -17,7 +17,7 @@ URL_DRACULA_THEME="https://github.com/dracula/gtk/archive/master.zip"
 URL_DRACULA_ICONTHEME="https://github.com/dracula/gtk/files/5214870/Dracula.zip"
 URL_CADMUS="https://github.com/josh-richardson/cadmus/releases/download/0.0.3/cadmus.deb"
 URL_NERD_FONT="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraMono.zip"
-
+URL_NEOVIM="https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.deb"
 ##DIRETÓRIOS E ARQUIVOS
 
 DIRETORIO_DOWNLOADS="$HOME/Downloads/programas"
@@ -103,7 +103,6 @@ PROGRAMAS_PARA_INSTALAR=(
   ulauncher
   xclip
   transmission
-  terminator
   nodejs
   npm
 )
@@ -119,7 +118,8 @@ echo -e "${VERDE}[INFO] - Baixando pacotes .deb${SEM_COR}"
 mkdir "$DIRETORIO_DOWNLOADS"
 wget -c "$URL_GOOGLE_CHROME"       -P "$DIRETORIO_DOWNLOADS"
 wget -c "$URL_CADMUS"       -P "$DIRETORIO_DOWNLOADS"
-
+wget -c "$URL_NEOVIM"       -P "$DIRETORIO_DOWNLOADS"
+wget -c "$URL_NERD_FONT"       -P "$DIRETORIO_DOWNLOADS"
 
 ## Instalando pacotes .deb baixados na sessão anterior ##
 echo -e "${VERDE}[INFO] - Instalando pacotes .deb baixados${SEM_COR}"
@@ -183,8 +183,8 @@ conf_theme(){
 	wget -c "$URL_DRACULA_ICONTHEME"       -P "$DIRETORIO_DOWNLOADS"
 	
 	#Moving to /usr/share/themes and /usr/share/icons
-	unzip gtk-master.zip -d /usr/share/themes
-	unzip Dracula.zip -d /usr/share/icons 
+	sudo unzip "$HOME/Downloads/programas/master.zip" -d /usr/share/themes
+  sudo unzip "$HOME/Downloads/programas/Dracula.zip" -d /usr/share/icons 
 	
 	#Gnome Theme
 	gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
@@ -193,9 +193,9 @@ conf_theme(){
 	gsettings set org.gnome.desktop.interface icon-theme "Dracula"
 
   #Download Dracula gnome-Terminal
-	git clone https://github.com/dracula/gnome-terminal "$DIRETORIO_DOWNLOADS"
+	git clone https://github.com/dracula/gnome-terminal "$HOME/Downloads/programas/gnome-terminal"
   chmod +x "$HOME/Downloads/programas/gnome-terminal/install.sh"
-	"$HOME/Downloads/programas/gnome-terminal/install.sh"
+  "$HOME/Downloads/programas/gnome-terminal/install.sh"
 }
 
 conf_terminal(){
@@ -217,68 +217,14 @@ conf_terminal(){
 	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 	
 	#Configs
-	sudo mv zhrc .zhrc
-	sudo mv -f .zhrc "/home/$USERNAME/"
-	export alias pbcopy='xclip -selection clipboard'
-	export alias pbpaste='xclip -selection clipboard -o'
-	source ~/.zshrc
+	sudo mv zshrc .zshrc
+	sudo mv -f .zshrc "/home/$USERNAME/"
 	echo "All the OhMyZSH configurations are Done. Please Reboot."	
-}
-
-conf_terminator(){
-echo -e "${VERDE}[INFO] - Adicionando Dracula Theme no Terminator! :)${SEM_COR}"
-cat <<EOF >  ~/.config/terminator/config
-[global_config]
-  title_transmit_bg_color = "#ad7fa8"
-[keybindings]
-  close_term = <Primary>w
-  close_window = <Primary>q
-  new_tab = <Primary>t
-  new_window = <Primary>i
-  paste = <Primary>v
-  split_horiz = <Primary>e
-  split_vert = <Primary>d
-  switch_to_tab_1 = <Primary>1
-  switch_to_tab_10 = <Primary>0
-  switch_to_tab_2 = <Primary>2
-  switch_to_tab_3 = <Primary>3
-  switch_to_tab_4 = <Primary>4
-  switch_to_tab_5 = <Primary>5
-  switch_to_tab_6 = <Primary>6
-[layouts]
-  [[default]]
-    [[[child1]]]
-      parent = window0
-      type = Terminal
-    [[[window0]]]
-      parent = ""
-      type = Window
-[plugins]
-[profiles]
-  [[default]]
-    cursor_color = "#aaaaaa"
-EOF
-
-
-cat <<EOF >>  ~/.config/terminator/config
-[[Dracula]]
-    background_color = "#1e1f29"
-    background_darkness = 0.88
-    background_type = transparent
-    copy_on_selection = True
-    cursor_color = "#bbbbbb"
-    foreground_color = "#f8f8f2"
-    palette = "#000000:#ff5555:#50fa7b:#f1fa8c:#bd93f9:#ff79c6:#8be9fd:#bbbbbb:#555555:#ff5555:#50fa7b:#f1fa8c:#bd93f9:#ff79c6:#8be9fd:#ffffff"
-    scrollback_infinite = True
-EOF
 }
 
 conf_nvim(){
   echo -e "${VERDE}[INFO] - Configurando AstroVIM! :)${SEM_COR}"
-  #Configurando NerdFont
-  wget -c "$URL_NERD_FONT"       -P "$DIRETORIO_DOWNLOADS"
-  sudo mkdir "/home/$USERNAME/.fonts"
-  unzip "$DIRETORIO_DOWNLOADS/FiraMono.zip" -d "/home/$USERNAME/.fonts"
+ 
 
   #Backup NVIM atual
   mv ~/.config/nvim ~/.config/nvimbackup
@@ -310,14 +256,21 @@ nautilus -q
 
 extra_config(){
 echo -e "${VERDE}[INFO] - Configurações extras! :)${SEM_COR}"
+
+#Configurando NerdFont
+sudo mkdir "/home/$USERNAME/.fonts"
+unzip "$DIRETORIO_DOWNLOADS/FiraMono.zip" -d "/home/$USERNAME/.fonts"
+
+#Xcopy
+export alias pbcopy='xclip -selection clipboard'
+export alias pbpaste='xclip -selection clipboard -o'
+source ~/.zshrc
+
 #enabling workspaces for both screens
 gsettings set org.gnome.mutter workspaces-only-on-primary false
 
 #Ulauncher Dracula Theme
 git clone https://github.com/dracula/ulauncher.git ~/.config/ulauncher/user-themes/dracula-ulauncher
-
-#Ngrok
-sh -c "$(curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && echo deb https://ngrok-agent.s3.amazonaws.com buster main | sudo tee /etc/apt/sources.list.d/ngrok.list && sudo apt update && sudo apt install ngrok)"
 }
 
 # -------------------------------------------------------------------------------- #
@@ -341,10 +294,9 @@ elif [[ "$1" == "install" ]]; then
   apt_update
   system_clean
 elif [[ "$1" == "config" ]]; then
-  conf_terminal
-  conf_terminator
+  #conf_terminal
   conf_theme
-  conf_nvim
+  #conf_nvim
   extra_config
   apt_update
   system_clean
