@@ -81,13 +81,14 @@ sudo add-apt-repository ppa:alexlarsson/flatpak
 
 PROGRAMAS_PARA_INSTALAR=(
   snapd
+  flatpak
+  gnome-software-plugin-flatpak
   ratbagd
   gparted
   timeshift
   virtualbox
   gufw
   synaptic
-  vlc
   gnome-sushi 
   folder-color
   git
