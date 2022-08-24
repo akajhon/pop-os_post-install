@@ -16,7 +16,7 @@ URL_GOOGLE_CHROME="https://dl.google.com/linux/direct/google-chrome-stable_curre
 URL_DRACULA_THEME="https://github.com/dracula/gtk/archive/master.zip"
 URL_DRACULA_ICONTHEME="https://github.com/dracula/gtk/files/5214870/Dracula.zip"
 URL_CADMUS="https://github.com/josh-richardson/cadmus/releases/download/0.0.3/cadmus.deb"
-URL_NERD_FONT = "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraMono.zip"
+URL_NERD_FONT="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/FiraMono.zip"
 
 ##DIRETÓRIOS E ARQUIVOS
 
