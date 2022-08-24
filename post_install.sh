@@ -337,6 +337,7 @@ elif [[ "$1" == "install" ]]; then
   install_debs
   install_flatpaks
   install_snaps
+  install_vscode
   apt_update
   system_clean
 elif [[ "$1" == "config" ]]; then
