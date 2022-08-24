@@ -72,6 +72,7 @@ Instalar as extensões abaixo:
 - [x] Sound Input & Output Device Chooser
 - [x] Bluetooth Quick Connect
 - [x] Control Blur Effect On Lock Screen
+- [x] Hide Top Bar
 
 ***
 
