@@ -56,7 +56,7 @@ Execute o arquivo principal com o parâmetro "config" para realizar a configura�
 ```
 ***
 
-O Arquivo nvim_configs.md contém as intruções para instalação do OhMyZSH + Plugins no terminal.
+O Arquivo terminal_configs.md contém as intruções para instalação do OhMyZSH + Plugins no terminal.
 
 Para alterar o tema 'Dracula' instalado, verificar a URL: "https://www.gnome-look.org/p/1687249". Buscar por "Dracula-shell-pink-accent-v40.tar.xz"
 
