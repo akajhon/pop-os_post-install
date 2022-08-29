@@ -162,7 +162,8 @@ install_snaps(){
 
 echo -e "${VERDE}[INFO] - Instalando pacotes snap${SEM_COR}"
 
-sudo snap install pycharm-community --classic 
+sudo snap install pycharm-community --classic
+sudo snap install ngrok
 
 }
 
