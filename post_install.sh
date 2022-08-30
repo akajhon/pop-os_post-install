@@ -153,7 +153,6 @@ flatpak install flathub com.bitwarden.desktop -y
 flatpak install flathub org.onlyoffice.desktopeditors -y
 flatpak install flathub org.flameshot.Flameshot -y
 flatpak install flathub org.gnome.Connections -y
-flatpak install flathub cc.arduino.IDE2 -y
 }
 
 ## Instalando pacotes Snap ##
@@ -164,6 +163,7 @@ echo -e "${VERDE}[INFO] - Instalando pacotes snap${SEM_COR}"
 
 sudo snap install pycharm-community --classic
 sudo snap install ngrok
+sudo snap install arduino
 
 }
 
