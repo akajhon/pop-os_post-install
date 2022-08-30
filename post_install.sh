@@ -81,6 +81,8 @@ sudo add-apt-repository ppa:alexlarsson/flatpak
 PROGRAMAS_PARA_INSTALAR=(
   snapd
   flatpak
+  python3
+  python3-pip
   gnome-software-plugin-flatpak
   ratbagd
   gparted
