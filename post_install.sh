@@ -85,6 +85,7 @@ PROGRAMAS_PARA_INSTALAR=(
   python3-pip
   default-jdk
   wget2
+  flameshot
   gnome-software-plugin-flatpak
   ratbagd
   gparted
@@ -155,7 +156,6 @@ flatpak install flathub md.obsidian.Obsidian -y
 flatpak install flathub com.spotify.Client -y
 flatpak install flathub com.bitwarden.desktop -y
 flatpak install flathub org.onlyoffice.desktopeditors -y
-flatpak install flathub org.flameshot.Flameshot -y
 flatpak install flathub org.gnome.Connections -y
 }
 
