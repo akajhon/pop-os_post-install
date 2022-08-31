@@ -77,8 +77,8 @@ Instalar as extensões abaixo:
 ***
 
 - [x] Definir atalhos para Spotify
-- [x] Definir atalhos para bloquear tela
-- [x] Definir atalho para Flameshot
+- [x] Definir atalhos para bloquear tela -> Super + L
+- [x] Definir atalho para Flameshot -> caminho: /usr/bin/flameshot gui
 - [x] Definir Montagem automática do outro HD
 
 ***
