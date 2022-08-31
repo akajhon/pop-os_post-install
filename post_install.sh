@@ -84,6 +84,7 @@ PROGRAMAS_PARA_INSTALAR=(
   python3
   python3-pip
   default-jdk
+  wget2
   gnome-software-plugin-flatpak
   ratbagd
   gparted
