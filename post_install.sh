@@ -83,6 +83,7 @@ PROGRAMAS_PARA_INSTALAR=(
   flatpak
   python3
   python3-pip
+  python3-scapy
   default-jdk
   wget2
   flameshot
