@@ -87,6 +87,7 @@ PROGRAMAS_PARA_INSTALAR=(
   default-jdk
   wget2
   flameshot
+  wireshark
   gnome-software-plugin-flatpak
   ratbagd
   gparted
