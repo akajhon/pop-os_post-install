@@ -88,6 +88,7 @@ PROGRAMAS_PARA_INSTALAR=(
   wget2
   flameshot
   wireshark
+  nmap
   gnome-software-plugin-flatpak
   ratbagd
   gparted
