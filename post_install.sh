@@ -170,7 +170,7 @@ echo -e "${VERDE}[INFO] - Instalando pacotes snap${SEM_COR}"
 sudo snap install pycharm-community --classic
 sudo snap install ngrok
 sudo snap install arduino
-
+sudo snap install docker
 }
 
 install_vscode(){
