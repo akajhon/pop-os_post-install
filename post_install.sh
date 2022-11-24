@@ -114,6 +114,7 @@ PROGRAMAS_PARA_INSTALAR=(
   nodejs
   npm
   plocate
+  arandr
 )
 
 # ---------------------------------------------------------------------- #
